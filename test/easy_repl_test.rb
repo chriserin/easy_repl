@@ -15,11 +15,11 @@ describe EasyRepl do
 
   it "easy repl accepts a block" do
     out = ''
-    EasyRepl.stub :prompt, OpenStruct.new(:gets => "exit") do
+    seq = Support::CommandSequence.new "XXX", "exit"
+    EasyRepl.stub :prompt, seq do
       out, err = capture_io do
-        EasyRepl.start do
-          puts "XXX"
-          result = EasyRepl.gets
+        EasyRepl.start do |input|
+          puts input
         end
       end
     end
@@ -42,8 +42,8 @@ describe EasyRepl do
     seq = Support::CommandSequence.new "abc", "def", "ghi", "exit"
     EasyRepl.stub :prompt, seq do
       out, err = capture_io do
-        EasyRepl.start do
-          puts EasyRepl.gets.reverse
+        EasyRepl.start do |input|
+          puts input.reverse
         end
       end
     end

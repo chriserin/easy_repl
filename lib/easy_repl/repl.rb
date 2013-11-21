@@ -22,7 +22,7 @@ module EasyRepl
         exit_value = catch(:exit_repl) do
           loop do
             if block_given?
-              yield
+              yield EasyRepl.gets
             else
               puts EasyRepl.gets
             end
