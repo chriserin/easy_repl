@@ -17,23 +17,26 @@ module EasyRepl
   module Repl
     def start
       IRB::HistorySavingAbility.extend(IRB::HistorySavingAbility) unless IRB::HistorySavingAbility === IRB::HistorySavingAbility
-      while(true) do
+      loop do
         setup if respond_to? :setup
-        exit_value = catch(:exit_repl) do
-          loop do
-            if block_given?
-              yield EasyRepl.gets
-            elsif respond_to? :process_input
-              process_input(EasyRepl.gets)
-            else
-              puts EasyRepl.gets
+        begin
+          exit_value = catch(:exit_repl) do
+            loop do
+              if block_given?
+                yield EasyRepl.gets
+              elsif respond_to? :process_input
+                process_input(EasyRepl.gets)
+              else
+                puts EasyRepl.gets
+              end
             end
           end
+          return if exit_value == :exit
+        ensure
+          teardown if respond_to? :teardown
         end
-        return if exit_value == :exit
       end
     ensure
-      teardown if respond_to? :teardown
       IRB::HistorySavingAbility.save_history
     end
 

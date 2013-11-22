@@ -1,11 +1,11 @@
 require './lib/easy_repl'
 
 module Support
-  class SetupEasyRepl
+  class TeardownEasyRepl
     extend EasyRepl::Repl
 
-    def self.setup
-      puts "SETUP"
+    def self.teardown
+      puts "TEARDOWN"
     end
   end
 end
