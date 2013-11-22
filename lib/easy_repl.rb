@@ -1,13 +1,19 @@
-require './lib/easy_repl/repl'
-require './lib/easy_repl/commands/matchable'
-require './lib/easy_repl/commands/exit'
-require './lib/easy_repl/commands/reload'
-require "./lib/easy_repl/version"
 
 
 module EasyRepl
-  extend EasyRepl::Repl
+  attr_accessor :history_file
+  def self.history_file=(value)
+    @history_file = value
+  end
 
-  def self.setup; end
-  def self.teardown; end
+  def self.history_file
+    @history_file
+  end
+
+  require 'easy_repl/repl'
+  require 'easy_repl/commands/matchable'
+  require 'easy_repl/commands/exit'
+  require 'easy_repl/commands/reload'
+  require "easy_repl/version"
+  extend EasyRepl::Repl
 end

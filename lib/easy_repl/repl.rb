@@ -7,22 +7,24 @@ module IRB
     {
       LC_MESSAGES: Locale.new,
       SAVE_HISTORY: 100,
-      HISTORY_FILE: '.easyrepl_history',
+      HISTORY_FILE: EasyRepl.history_file || '.easyrepl_history',
       AT_EXIT: []
     }
   end
 end
-IRB::HistorySavingAbility.extend(IRB::HistorySavingAbility)
 
 module EasyRepl
   module Repl
     def start
+      IRB::HistorySavingAbility.extend(IRB::HistorySavingAbility) unless IRB::HistorySavingAbility === IRB::HistorySavingAbility
       while(true) do
-        setup
+        setup if respond_to? :setup
         exit_value = catch(:exit_repl) do
           loop do
             if block_given?
               yield EasyRepl.gets
+            elsif respond_to? :process_input
+              process_input(EasyRepl.gets)
             else
               puts EasyRepl.gets
             end
@@ -31,7 +33,7 @@ module EasyRepl
         return if exit_value == :exit
       end
     ensure
-      teardown
+      teardown if respond_to? :teardown
       IRB::HistorySavingAbility.save_history
     end
 
