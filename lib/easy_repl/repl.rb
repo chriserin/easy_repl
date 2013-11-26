@@ -22,12 +22,17 @@ module EasyRepl
         begin
           exit_value = catch(:exit_repl) do
             loop do
-              if block_given?
-                yield EasyRepl.gets
-              elsif respond_to? :process_input
-                process_input(EasyRepl.gets)
-              else
-                puts EasyRepl.gets
+              begin
+                before_input if respond_to? :before_input
+                if block_given?
+                  yield EasyRepl.gets
+                elsif respond_to? :process_input
+                  process_input(EasyRepl.gets)
+                else
+                  puts EasyRepl.gets
+                end
+              ensure
+                after_input if respond_to? :after_input
               end
             end
           end

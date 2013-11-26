@@ -97,4 +97,30 @@ describe EasyRepl do
       assert_equal "TEARDOWN\nTEARDOWN\n", out
     end
   end
+
+  describe "before input is defined" do
+    it "calls before input before every command" do
+      out = ''
+      seq = Support::CommandSequence.new "XXX", "exit"
+      EasyRepl.stub :prompt, seq do
+        out, err = capture_io do
+          Support::BeforeInputEasyRepl.start
+        end
+      end
+      assert_equal "BEFOREINPUT\nXXX\nBEFOREINPUT\n", out
+    end
+  end
+
+  describe "after input is defined" do
+    it "calls after input after every command" do
+      out = ''
+      seq = Support::CommandSequence.new "XXX", "exit"
+      EasyRepl.stub :prompt, seq do
+        out, err = capture_io do
+          Support::AfterInputEasyRepl.start
+        end
+      end
+      assert_equal "XXX\nAFTERINPUT\nAFTERINPUT\n", out
+    end
+  end
 end
