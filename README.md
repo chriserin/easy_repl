@@ -9,6 +9,7 @@ A Repl (Read Eval Print Loop) library.
   * Exit Command
   * Reload Command
   * Setup and Teardown lifecycle methods
+  * After Input and Before Input lifecylce methods
 
 ## Usage
 
@@ -43,24 +44,39 @@ A Repl (Read Eval Print Loop) library.
       puts "LOADING RESOURCES"
     end
 
-    def teardown
-      puts "CLOSING RESOURCES"
+    def before_input
+      puts "before_input"
     end
 
     def process_input(input)
       puts input.reverse
     end
+
+    def after_input
+      puts "after_input"
+    end
+
+    def teardown
+      puts "CLOSING RESOURCES"
+    end
+
   end
 
   MyRepl.new.start
 
   # LOADING RESOURCES
+  # before_input
   # > abc
+  # after_input
   # cba
+  # before_input
   # > reload
+  # after_input
   # CLOSING RESOURCES
   # LOADING RESOURCES
+  # before_input
   # > exit
+  # after_input
   # CLOSING RESOURCES
 
 
