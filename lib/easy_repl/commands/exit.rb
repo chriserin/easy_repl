@@ -7,8 +7,8 @@ module EasyRepl
         "exit"
       end
 
-      def self.run
-        throw :exit_repl, :exit
+      def self.run(input)
+        throw :exit_inner_loop, :exit
       end
     end
   end
