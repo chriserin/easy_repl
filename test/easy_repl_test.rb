@@ -54,7 +54,7 @@ describe EasyRepl do
     it "calls setup before asking for input" do
       out = ''
       seq = Support::CommandSequence.new "exit"
-      EasyRepl.stub :prompt, seq do
+      Support::SetupEasyRepl.stub :prompt, seq do
         out, err = capture_io do
           Support::SetupEasyRepl.start
         end
@@ -65,7 +65,7 @@ describe EasyRepl do
     it "calls setup when the reload command is entered" do
       out = ''
       seq = Support::CommandSequence.new "reload", "exit"
-      EasyRepl.stub :prompt, seq do
+      Support::SetupEasyRepl.stub :prompt, seq do
         out, err = capture_io do
           Support::SetupEasyRepl.start
         end
@@ -78,7 +78,7 @@ describe EasyRepl do
     it "calls teardown before exiting" do
       out = ''
       seq = Support::CommandSequence.new "exit"
-      EasyRepl.stub :prompt, seq do
+      Support::TeardownEasyRepl.stub :prompt, seq do
         out, err = capture_io do
           Support::TeardownEasyRepl.start
         end
@@ -89,7 +89,7 @@ describe EasyRepl do
     it "calls teardown when the reload command is entered" do
       out = ''
       seq = Support::CommandSequence.new "reload", "exit"
-      EasyRepl.stub :prompt, seq do
+      Support::TeardownEasyRepl.stub :prompt, seq do
         out, err = capture_io do
           Support::TeardownEasyRepl.start
         end
@@ -102,7 +102,7 @@ describe EasyRepl do
     it "calls before input before every command" do
       out = ''
       seq = Support::CommandSequence.new "XXX", "exit"
-      EasyRepl.stub :prompt, seq do
+      Support::BeforeInputEasyRepl.stub :prompt, seq do
         out, err = capture_io do
           Support::BeforeInputEasyRepl.start
         end
@@ -115,7 +115,7 @@ describe EasyRepl do
     it "calls after input after every command" do
       out = ''
       seq = Support::CommandSequence.new "XXX", "exit"
-      EasyRepl.stub :prompt, seq do
+      Support::AfterInputEasyRepl.stub :prompt, seq do
         out, err = capture_io do
           Support::AfterInputEasyRepl.start
         end
